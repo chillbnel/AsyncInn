@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AsyncInn.Controller
+namespace AsyncInn.Models
 {
-    public class HomeController
+    public class Hotel
     {
     }
 }
