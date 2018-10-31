@@ -19,6 +19,32 @@ namespace AsyncInn.Data
             modelBuilder.Entity<HotelRoom>().HasKey(hr => new { hr.HotelID, hr.RoomNumber });
 
             modelBuilder.Entity<RoomAmenities>().HasKey(ra => new { ra.AmenitiesID, ra.RoomID });
+
+            modelBuilder.Entity<Hotel>().HasData(
+                new Hotel
+                {
+                    ID = 1,
+                    Name = "Downtown Seattle",
+                    Address = "1234 Fake Street, Seattle, WA 98122",
+                    Phone = "206-777-5555"
+                },
+
+                new Hotel
+                {
+                    ID = 2,
+                    Name = "West Seattle",
+                    Address = "555 55th Place, Seattle, WA 98101",
+                    Phone = "206-777-5555"
+                },
+
+                new Hotel
+                {
+                    ID = 2,
+                    Name = "West Seattle",
+                    Address = "555 55th Place, Seattle, WA 98101",
+                    Phone = "206-777-5555"
+                }
+            );
         }
 
         public DbSet<Amenities> Amenities { get; set; }
