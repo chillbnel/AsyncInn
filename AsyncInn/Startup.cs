@@ -19,7 +19,9 @@ namespace AsyncInn
         public IConfiguration Configuration { get; }
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder().AddEnvironmentVariables();
+            builder.AddUserSecrets<Startup>();
+            Configuration = builder.Build();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -29,7 +31,8 @@ namespace AsyncInn
             services.AddMvc();
             services.AddDbContext<AsyncInnDbContext>(options =>
             {
-                options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]);
+                //options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]);
+                options.UseSqlServer(Configuration["ConnectionStrings:ProductionDB"]);
             });
 
             services.AddTransient<IAmenities, AmenitiesServices>();
@@ -40,9 +43,7 @@ namespace AsyncInn
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
+                app.UseStaticFiles();
 
                 app.UseMvc(route =>
                 {
@@ -50,8 +51,6 @@ namespace AsyncInn
                         name: "default",
                         template: "{controller=Home}/{action=Index}/{id?}");
                 });
-                app.UseStaticFiles();
-            }
         }
     }
 }
