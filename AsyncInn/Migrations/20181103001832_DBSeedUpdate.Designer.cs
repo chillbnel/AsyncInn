@@ -4,14 +4,16 @@ using AsyncInn.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AsyncInn.Migrations
 {
     [DbContext(typeof(AsyncInnDbContext))]
-    partial class AsyncInnDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181103001832_DBSeedUpdate")]
+    partial class DBSeedUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,14 +38,6 @@ namespace AsyncInn.Migrations
                     b.HasIndex("HotelRoomHotelID", "HotelRoomRoomNumber");
 
                     b.ToTable("Amenities");
-
-                    b.HasData(
-                        new { ID = 1, Name = "Hot Tub" },
-                        new { ID = 2, Name = "Heart Shaped Pillows" },
-                        new { ID = 3, Name = "Rose Pedals" },
-                        new { ID = 4, Name = "Champange Dispensor" },
-                        new { ID = 5, Name = "Fluffy Handcuffs" }
-                    );
                 });
 
             modelBuilder.Entity("AsyncInn.Models.Hotel", b =>
@@ -64,10 +58,8 @@ namespace AsyncInn.Migrations
 
                     b.HasData(
                         new { ID = 1, Address = "1234 Fake Street, Seattle, WA 98122", Name = "Downtown Seattle", Phone = "206-777-5555" },
-                        new { ID = 2, Address = "555 55th Place, Seattle, WA 98101", Name = "West Seattle", Phone = "206-666-5555" },
-                        new { ID = 3, Address = "111 Rodeo Drive, Seattle, WA 98105", Name = "Ballard", Phone = "206-888-5555" },
-                        new { ID = 4, Address = "1526 29th Avenue, Seattle, WA 98122", Name = "Central District", Phone = "206-739-9112" },
-                        new { ID = 5, Address = "200 200th Place SE, Bothell, WA 98012", Name = "Bothell", Phone = "425-487-9840" }
+                        new { ID = 2, Address = "555 55th Place, Seattle, WA 98101", Name = "West Seattle", Phone = "206-777-5555" },
+                        new { ID = 3, Address = "555 55th Place, Seattle, WA 98101", Name = "West Seattle", Phone = "206-777-5555" }
                     );
                 });
 
@@ -102,21 +94,11 @@ namespace AsyncInn.Migrations
 
                     b.Property<int>("Layout");
 
-                    b.Property<string>("Name")
-                        .IsRequired();
+                    b.Property<string>("Name");
 
                     b.HasKey("ID");
 
                     b.ToTable("Rooms");
-
-                    b.HasData(
-                        new { ID = 1, Layout = 0, Name = "Hawks Nest" },
-                        new { ID = 2, Layout = 0, Name = "Sonics Court" },
-                        new { ID = 3, Layout = 1, Name = "Husky Den" },
-                        new { ID = 4, Layout = 1, Name = "Sounders Club" },
-                        new { ID = 5, Layout = 2, Name = "Storms Court" },
-                        new { ID = 6, Layout = 2, Name = "Dreamin' NHL" }
-                    );
                 });
 
             modelBuilder.Entity("AsyncInn.Models.RoomAmenities", b =>
