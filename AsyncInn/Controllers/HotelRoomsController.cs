@@ -7,16 +7,23 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AsyncInn.Data;
 using AsyncInn.Models;
+using AsyncInn.Models.Interfaces;
 
 namespace AsyncInn.Controllers
 {
     public class HotelRoomsController : Controller
     {
         private readonly AsyncInnDbContext _context;
+        private readonly IHotel _hotel;
+        private readonly IRoom _room;
+ 
 
-        public HotelRoomsController(AsyncInnDbContext context)
+
+        public HotelRoomsController(AsyncInnDbContext context, IHotel hotel, IRoom room)
         {
             _context = context;
+            _hotel = hotel;
+            _room = room;
         }
 
         // GET: HotelRooms
@@ -27,17 +34,10 @@ namespace AsyncInn.Controllers
         }
 
         // GET: HotelRooms/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var hotelRoom = _room.GetHotelRoomByRoomType(id);//refactored using the RoomServices service
 
-            var hotelRoom = await _context.HotelRooms
-                .Include(h => h.Hotel)
-                .Include(h => h.Room)
-                .FirstOrDefaultAsync(m => m.HotelID == id);
             if (hotelRoom == null)
             {
                 return NotFound();

@@ -7,16 +7,21 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AsyncInn.Data;
 using AsyncInn.Models;
+using AsyncInn.Models.Interfaces;
 
 namespace AsyncInn.Controllers
 {
     public class RoomAmenitiesController : Controller
     {
         private readonly AsyncInnDbContext _context;
+        private readonly IAmenities _amenity;
+        private readonly IRoom _room;
 
-        public RoomAmenitiesController(AsyncInnDbContext context)
+        public RoomAmenitiesController(AsyncInnDbContext context, IAmenities amenity, IRoom room)
         {
             _context = context;
+            _amenity = amenity;
+            _room = room;
         }
 
         // GET: RoomAmenities
