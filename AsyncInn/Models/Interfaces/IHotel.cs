@@ -18,7 +18,6 @@ namespace AsyncInn.Models.Interfaces
 
         //Reading
         Task<List<Hotel>> GetHotels();
-
         Task<Hotel> GetHotel(int? id);
     }
 }
