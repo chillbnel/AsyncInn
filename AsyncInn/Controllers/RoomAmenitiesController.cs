@@ -32,17 +32,10 @@ namespace AsyncInn.Controllers
         }
 
         // GET: RoomAmenities/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int RoomID, int AmenitiesID)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var roomAmenities = _room.GetRoomAmenitiesByRoomType(RoomID, AmenitiesID);//refactored using the RoomServices service
 
-            var roomAmenities = await _context.RoomAmenities
-                .Include(r => r.Amenities)
-                .Include(r => r.Room)
-                .FirstOrDefaultAsync(m => m.AmenitiesID == id);
             if (roomAmenities == null)
             {
                 return NotFound();
@@ -133,17 +126,10 @@ namespace AsyncInn.Controllers
         }
 
         // GET: RoomAmenities/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int RoomID, int AmenitiesID)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var roomAmenities = _room.GetRoomAmenitiesByRoomType(RoomID, AmenitiesID); //refactored using the RoomServices service
 
-            var roomAmenities = await _context.RoomAmenities
-                .Include(r => r.Amenities)
-                .Include(r => r.Room)
-                .FirstOrDefaultAsync(m => m.AmenitiesID == id);
             if (roomAmenities == null)
             {
                 return NotFound();
@@ -155,9 +141,9 @@ namespace AsyncInn.Controllers
         // POST: RoomAmenities/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int RoomID, int AmenitiesID)
         {
-            var roomAmenities = await _context.RoomAmenities.FindAsync(id);
+            var roomAmenities = _room.GetRoomAmenitiesByRoomType(RoomID, AmenitiesID);//refactored using the RoomServices service
             _context.RoomAmenities.Remove(roomAmenities);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
