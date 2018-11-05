@@ -29,7 +29,7 @@ namespace AsyncInn
             services.AddMvc();
             services.AddDbContext<AsyncInnDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]);
             });
 
             services.AddTransient<IAmenities, AmenitiesServices>();
