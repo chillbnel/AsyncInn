@@ -7,14 +7,15 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AsyncInn.Data;
 using AsyncInn.Models;
+using AsyncInn.Models.Interfaces;
 
 namespace AsyncInn.Controllers
 {
     public class AmenitiesController : Controller
     {
-        private readonly AsyncInnDbContext _context;
+        private readonly IAmenities _context;
 
-        public AmenitiesController(AsyncInnDbContext context)
+        public AmenitiesController(IAmenities context)
         {
             _context = context;
         }
@@ -22,7 +23,7 @@ namespace AsyncInn.Controllers
         // GET: Amenities
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Amenities.ToListAsync());
+            return View(await _context.GetAmenity());//refactored using the AmenitiesServices service
         }
 
         // GET: Amenities/Details/5
@@ -33,8 +34,8 @@ namespace AsyncInn.Controllers
                 return NotFound();
             }
 
-            var amenities = await _context.Amenities
-                .FirstOrDefaultAsync(m => m.ID == id);
+            var amenities = await _context.GetAmenities(id);//refactored using the AmenitiesServices service
+                
             if (amenities == null)
             {
                 return NotFound();
@@ -58,8 +59,7 @@ namespace AsyncInn.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(amenities);
-                await _context.SaveChangesAsync();
+                await _context.CreateAmenity(amenities);//refactored using the AmenitiesServices service
                 return RedirectToAction(nameof(Index));
             }
             return View(amenities);
@@ -73,7 +73,7 @@ namespace AsyncInn.Controllers
                 return NotFound();
             }
 
-            var amenities = await _context.Amenities.FindAsync(id);
+            var amenities = await _context.GetAmenities(id);//refactored using the AmenitiesServices service
             if (amenities == null)
             {
                 return NotFound();
@@ -97,8 +97,7 @@ namespace AsyncInn.Controllers
             {
                 try
                 {
-                    _context.Update(amenities);
-                    await _context.SaveChangesAsync();
+                    await _context.UpdateAmenity(amenities);//refactored using the AmenitiesServices service
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -124,8 +123,8 @@ namespace AsyncInn.Controllers
                 return NotFound();
             }
 
-            var amenities = await _context.Amenities
-                .FirstOrDefaultAsync(m => m.ID == id);
+            var amenities = await _context.GetAmenities(id); //refactored using the AmenitiesServices service
+
             if (amenities == null)
             {
                 return NotFound();
@@ -139,15 +138,13 @@ namespace AsyncInn.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var amenities = await _context.Amenities.FindAsync(id);
-            _context.Amenities.Remove(amenities);
-            await _context.SaveChangesAsync();
+            await _context.DeleteAmenity(id);//refactored using the AmenitiesServices service
             return RedirectToAction(nameof(Index));
         }
 
         private bool AmenitiesExists(int id)
         {
-            return _context.Amenities.Any(e => e.ID == id);
+            return _context.GetAmenities(id) != null; //refactored using the AmenitiesServices service
         }
     }
 }
