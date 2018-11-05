@@ -12,7 +12,7 @@ namespace AsyncInn.Models
 
         [Required]
         [Display(Name = "Amenity Name")]
-        [StringLength(100, ErrorMessage = "20 characters or less required")]
+        [StringLength(100, ErrorMessage = "100 characters or less required")]
         public string Name { get; set; }
 
         public ICollection<RoomAmenities> RoomAmenities { get; set; }
