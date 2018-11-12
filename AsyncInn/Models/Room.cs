@@ -9,7 +9,7 @@ namespace AsyncInn.Models
     public class Room
     {
         [Required]
-        [Display(Name = "Room Name")]
+        [Display(Name = "Room ID")]
         public int ID { get; set; }
 
         [Required]
