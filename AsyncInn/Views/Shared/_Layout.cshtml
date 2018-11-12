@@ -1,16 +1,22 @@
-﻿<html xmlns="http://www.w3.org/1999/xhtml">
+﻿
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
 </head>
 <body>
-    <nav>
-        <a href="/Home">Home</a>
-        <a href="/Hotels">Add: Hotel</a>
-        <a href="/Amenities">Add: Amenities</a>
-        <a href="/Rooms">Add: Room Type</a>
-        <a href="/HotelRooms">Add: Room to a Hotel</a>
-        <a href="/RoomAmenities">View: Available Room Amenities</a>
-    </nav>
+    <header>
+        <h1 class="banneHeading">
+            ASYNC HOTEL MANAGEMENT SYSTEM
+        </h1>
+    </header>
+    <div class="navBar">
+        <h2><a href="@Url.Action("Index", "Home")">Home</a></h2>
+        <h2><a href="@Url.Action("Index", "Hotels")">Hotels</a></h2>
+        <h2><a href="@Url.Action("Index", "HotelRooms")">Hotel Rooms</a></h2>
+        <h2><a href="@Url.Action("Index", "Rooms")">Specilized Room Types</a></h2>
+        <h2><a href="@Url.Action("Index", "Amenities")">Amenities</a></h2>
+        <h2><a href="@Url.Action("Index", "RoomAmenities")">View: Available Room Amenities</a></h2>
+    </div>
     @RenderBody();
 </body>
 </html>
