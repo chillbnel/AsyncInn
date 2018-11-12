@@ -13,7 +13,7 @@ namespace AsyncInn.Models
         public int AmenitiesID { get; set; }
 
         [Required]
-        [Display(Name = "Room")]
+        [Display(Name = "Room Type")]
         public int RoomID { get; set; }
 
         public Amenities Amenities { get; set; }

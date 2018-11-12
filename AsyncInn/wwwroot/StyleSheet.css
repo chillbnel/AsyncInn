@@ -15,10 +15,30 @@
 h2 {
     font-family: 'Josefin Sans', sans-serif;
     color: black;
-    font-weight: 400;
+    font-weight: bold;
     font-size: 20px;
 }
 
 .navBar h2 {
     padding: 0 1em;
 }
+
+.table {
+    position: relative;
+    margin: 20px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.8);
+    text-align: center;
+    background-color: #ccc;
+}
+
+td, th, tr {
+    border: 1px solid white;
+    padding: 9px;
+}
+
+    tr:hover {
+        background-color: #ddffdd;
+        transition: 0.4s;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        font-size: 1.1em;
+    }

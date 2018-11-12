@@ -2,10 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
+    <link href="~/StyleSheet.css" rel="stylesheet" />
 </head>
 <body>
     <header>
-        <h1 class="banneHeading">
+        <h1 class="bannerHeading">
             ASYNC HOTEL MANAGEMENT SYSTEM
         </h1>
     </header>
@@ -15,8 +16,8 @@
         <h2><a href="@Url.Action("Index", "HotelRooms")">Hotel Rooms</a></h2>
         <h2><a href="@Url.Action("Index", "Rooms")">Specilized Room Types</a></h2>
         <h2><a href="@Url.Action("Index", "Amenities")">Amenities</a></h2>
-        <h2><a href="@Url.Action("Index", "RoomAmenities")">View: Available Room Amenities</a></h2>
+        <h2><a href="@Url.Action("Index", "RoomAmenities")">Amenity Association</a></h2>
     </div>
-    @RenderBody();
+    @RenderBody()
 </body>
 </html>
