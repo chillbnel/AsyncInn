@@ -25,7 +25,7 @@ namespace AsyncInn.Models.Services
 
         public async Task DeleteRoom(int id)
         {
-            var room = await _context.Rooms.FindAsync(id);
+            var room = await GetRoom(id);
             _context.Rooms.Remove(room);
             await _context.SaveChangesAsync();
         }
