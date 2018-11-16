@@ -46,11 +46,11 @@
                 @Html.DisplayFor(modelItem => item.PetFriendly)
             </td>
             <td>
-                @*@Html.ActionLink("Edit", "Edit", new { item.RoomID }) |
-                @Html.ActionLink("Details", "Details", new { item.RoomNumber }) |
-                @Html.ActionLink("Delete", "Delete", new { item.RoomNumber })*@
+                @Html.ActionLink("Edit", "Edit", new { Hotelid = item.HotelID, RoomNumber = item.RoomNumber }) |
+                @*@Html.ActionLink("Details", "Details", new { Hotelid = item.HotelID, RoomNumber = item.RoomNumber }) |
+                @Html.ActionLink("Delete", "Delete", new { Hotelid = item.HotelID, RoomNumber = item.RoomNumber })*@
 
-                <a asp-action="Edit" asp-route-id="@item.RoomNumber">Edit</a> |
+                @*<a asp-action="Edit" asp-route-id="@item.RoomNumber">Edit</a> |*@
                 <a asp-action="Details" asp-route-id="@item.RoomNumber">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.RoomNumber">Delete</a>
             </td>
