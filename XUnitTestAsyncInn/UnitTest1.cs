@@ -1,7 +1,9 @@
 using AsyncInn.Data;
 using AsyncInn.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using Xunit;
+
 
 namespace XUnitTestAsyncInn
 {
@@ -51,7 +53,7 @@ namespace XUnitTestAsyncInn
         [Fact]
         public void HotelRoomSet()
         {
-            HotelRoom hotelRoom= new HotelRoom();
+            HotelRoom hotelRoom = new HotelRoom();
             hotelRoom.RoomNumber = 666;
 
             hotelRoom.RoomNumber = 187;
@@ -141,7 +143,149 @@ namespace XUnitTestAsyncInn
             Assert.Equal("Ultimate Pleasure Pad", roomSet.Name);
         }
 
-    }
 
+
+        /// <summary>
+        /// Tests the Hotel table Create/Read operations
+        /// </summary>
+        [Fact]
+        public async void CreateReadHotel()
+        {
+            DbContextOptions<AsyncInnDbContext> options = new DbContextOptionsBuilder<AsyncInnDbContext>()
+                .UseInMemoryDatabase("CreateHotel")
+                .Options;
+
+            using (AsyncInnDbContext context = new AsyncInnDbContext(options))
+            {
+                Hotel hotelCreate = new Hotel();
+                hotelCreate.Name = "Jeff's Discount Hourly Rooms";
+
+                context.Hotels.Add(hotelCreate);
+                context.SaveChanges();
+
+                var wasHotelCreated = await context.Hotels.FirstOrDefaultAsync(x => x.Name == hotelCreate.Name);
+
+                Assert.Equal("Jeff's Discount Hourly Rooms", wasHotelCreated.Name);
+            }
+
+        }
+
+        /// <summary>
+        /// Tests the Hotel Table Update operation
+        /// </summary>
+        [Fact]
+        public async void UpdateHotel()
+        {
+            DbContextOptions<AsyncInnDbContext> options =
+                new DbContextOptionsBuilder<AsyncInnDbContext>()
+                .UseInMemoryDatabase("CreateHotel")
+                .Options;
+
+            using (AsyncInnDbContext context = new AsyncInnDbContext(options))
+            {
+                Hotel hotelCreate = new Hotel();
+                hotelCreate.Name = "Sort a Good Hotel";
+
+                context.Hotels.Add(hotelCreate);
+                context.SaveChanges();
+
+                hotelCreate.Name = "Now a Really Good Hotel";
+
+                context.Hotels.Update(hotelCreate);
+                context.SaveChanges();
+
+                var hotelWasUpdated = await context.Hotels.FirstOrDefaultAsync(x => x.Name == hotelCreate.Name);
+
+                Assert.Equal("Now a Really Good Hotel", hotelWasUpdated.Name);
+            }
+        }
+
+        /// <summary>
+        /// Tests the Hotel Table Delete operation
+        /// </summary>
+        [Fact]
+        public async void DeleteHotel()
+        {
+            DbContextOptions<AsyncInnDbContext> options =
+                new DbContextOptionsBuilder<AsyncInnDbContext>()
+                .UseInMemoryDatabase("CreateHotel")
+                .Options;
+
+            using (AsyncInnDbContext context = new AsyncInnDbContext(options))
+            {
+                Hotel hotelCreate = new Hotel();
+                hotelCreate.Name = "Going Out of Business Inn";
+
+                context.Hotels.Add(hotelCreate);
+                context.SaveChanges();
+
+                context.Hotels.Remove(hotelCreate);
+                context.SaveChanges();
+
+                var hotelListWithoutDeletedHotel = await context.Hotels.ToListAsync();
+
+                Assert.DoesNotContain(hotelCreate, hotelListWithoutDeletedHotel);
+            }
+        }
+
+        /// <summary>
+        /// Tests Room Ammenities Table Create and Read operations
+        /// </summary>
+        [Fact]
+        public async void CreateReadRoomAmenity()
+        {
+            DbContextOptions<AsyncInnDbContext> options =
+                new DbContextOptionsBuilder<AsyncInnDbContext>()
+                .UseInMemoryDatabase("CreateRA")
+                .Options;
+
+            using (AsyncInnDbContext context = new AsyncInnDbContext(options))
+            {
+                Amenities amenityCreate = new Amenities();
+                amenityCreate.Name = "High Pressure Bidet";
+
+                RoomAmenities roomAmenity = new RoomAmenities();
+                roomAmenity.Amenities = amenityCreate;
+
+                context.RoomAmenities.Add(roomAmenity);
+                context.SaveChanges();
+
+                var amenityWasCreated = await context.RoomAmenities.FirstOrDefaultAsync(x => x.Amenities == amenityCreate);
+
+                Assert.Contains("High Pressure Bidet", amenityWasCreated.Amenities.Name);
+            }
+        }
+
+        /// <summary>
+        /// Tests Room Amenities Table Delete operation
+        /// </summary>
+        [Fact]
+        public async void DeleteRoomAmenity()
+        {
+            DbContextOptions<AsyncInnDbContext> options =
+                new DbContextOptionsBuilder<AsyncInnDbContext>()
+                .UseInMemoryDatabase("CreateRA")
+                .Options;
+
+            using (AsyncInnDbContext context = new AsyncInnDbContext(options))
+            {
+                Amenities amenityCreate = new Amenities();
+                amenityCreate.Name = "Moldy Floor Scent";
+
+                RoomAmenities roomAmenity = new RoomAmenities();
+                roomAmenity.Amenities = amenityCreate;
+
+                context.RoomAmenities.Add(roomAmenity);
+                context.SaveChanges();
+
+                context.RoomAmenities.Remove(roomAmenity);
+                context.SaveChanges();
+
+                var roomAmenityListWithoutDeletedRoomAmenity = await context.RoomAmenities.ToListAsync();
+
+                Assert.DoesNotContain(roomAmenity, roomAmenityListWithoutDeletedRoomAmenity);
+            }
+        }
+    }
 
 }
